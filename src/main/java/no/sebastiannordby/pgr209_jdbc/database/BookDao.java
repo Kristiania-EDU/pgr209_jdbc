@@ -15,14 +15,20 @@ public class BookDao {
 
     public void save(Book book) throws SQLException {
         try(var connection = dataSource.getConnection()) {
+            var sql = "INSERT INTO books(title) values(?)";
+
             try(var statement =
-                    connection.prepareStatement("INSERT INTO books(title) values(?)")) {
+                    connection.prepareStatement(sql)) {
                 statement.setString(1, book.getTitle());
                 statement.executeUpdate();
+
+                try(var generatedKeys = statement.getGeneratedKeys()) {
+                    generatedKeys.next();
+                    book.setId(generatedKeys.getLong("id"));
+                }
             }
         }
 
-        book.setId(allBooks.size());
         allBooks.put(book.getId(), book);
     }
 
