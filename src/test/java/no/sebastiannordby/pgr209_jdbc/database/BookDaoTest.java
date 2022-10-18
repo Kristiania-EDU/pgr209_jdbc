@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BookDaoTest {
-    private BookDao dao;
+    private BookDao dao = new BookDao();
 
     @Test
     void shouldRetrieveBook() {
@@ -19,6 +19,6 @@ public class BookDaoTest {
     }
 
     private Book sampleBook() {
-        return null;
+        return new Book();
     }
 }
