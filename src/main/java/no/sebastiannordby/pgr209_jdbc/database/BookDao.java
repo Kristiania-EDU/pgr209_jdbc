@@ -2,12 +2,9 @@ package no.sebastiannordby.pgr209_jdbc.database;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import javax.sql.DataSource;
 
 public class BookDao {
-    private Map<Long, Book> allBooks = new HashMap<>();
     private DataSource dataSource;
 
     public BookDao(DataSource dataSource) {
@@ -28,11 +25,24 @@ public class BookDao {
                 }
             }
         }
-
-        allBooks.put(book.getId(), book);
     }
 
-    public Book retrieve(long id) {
-        return allBooks.get(id);
+    public Book retrieve(long id) throws SQLException {
+        try(var connection = dataSource.getConnection()) {
+            try(var statement = connection.prepareStatement("select * from books where id = ?")) {
+                statement.setLong(1, id);
+
+                try(var resultSet = statement.executeQuery()) {
+                    resultSet.next();
+
+                    var book = new Book();
+
+                    book.setId(resultSet.getLong("id"));
+                    book.setTitle(resultSet.getString("title"));
+
+                    return book;
+                }
+            }
+        }
     }
 }
