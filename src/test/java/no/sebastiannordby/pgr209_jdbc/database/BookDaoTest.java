@@ -42,4 +42,9 @@ public class BookDaoTest {
     private Book sampleBook() {
         return new Book();
     }
+
+    @Test
+    void shouldRetrieveNullForMissingBook() throws SQLException {
+        assertThat(dao.retrieve(-1)).isNull();
+    }
 }
