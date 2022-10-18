@@ -33,14 +33,16 @@ public class BookDao {
                 statement.setLong(1, id);
 
                 try(var resultSet = statement.executeQuery()) {
-                    resultSet.next();
+                    if(resultSet.next()) {
+                        var book = new Book();
 
-                    var book = new Book();
+                        book.setId(resultSet.getLong("id"));
+                        book.setTitle(resultSet.getString("title"));
 
-                    book.setId(resultSet.getLong("id"));
-                    book.setTitle(resultSet.getString("title"));
+                        return book;
+                    }
 
-                    return book;
+                    return null;
                 }
             }
         }

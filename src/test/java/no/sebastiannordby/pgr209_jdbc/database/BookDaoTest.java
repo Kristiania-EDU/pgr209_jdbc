@@ -1,5 +1,6 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
+import no.sebastiannordby.pgr209_jdbc.data.SampleData;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class BookDaoTest {
 
     @Test
     void shouldRetrieveBook() throws SQLException {
-        var book = sampleBook();
+        var book = SampleData.sampleBook();
 
         book.setTitle("Hello");
 
@@ -37,10 +38,6 @@ public class BookDaoTest {
             .usingRecursiveComparison()
             .isEqualTo(book)
             .isNotSameAs(book);
-    }
-
-    private Book sampleBook() {
-        return new Book();
     }
 
     @Test
