@@ -16,7 +16,7 @@ public class BookDao {
     public void save(Book book) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             try(var statement =
-                    connection.prepareStatement("INSERT INTO Books(title) value(?)")) {
+                    connection.prepareStatement("INSERT INTO books(title) values(?)")) {
                 statement.setString(1, book.getTitle());
                 statement.executeUpdate();
             }
