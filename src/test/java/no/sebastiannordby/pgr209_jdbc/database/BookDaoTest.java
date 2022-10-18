@@ -15,7 +15,8 @@ public class BookDaoTest {
 
         assertThat(dao.retrieve(book.getId()))
             .usingRecursiveComparison()
-            .isEqualTo(book);
+            .isEqualTo(book)
+            .isNotSameAs(book);
     }
 
     private Book sampleBook() {
