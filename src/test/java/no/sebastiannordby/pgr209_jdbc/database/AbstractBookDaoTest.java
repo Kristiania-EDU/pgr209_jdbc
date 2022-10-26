@@ -22,7 +22,7 @@ public abstract class AbstractBookDaoTest {
     }
 
     @Test
-    void shouldRetrieveBook() throws SQLException {
+    void shouldRetrieveBook() throws Exception {
         var book = SampleData.sampleBook();
 
         book.setTitle("Hello");
@@ -38,12 +38,12 @@ public abstract class AbstractBookDaoTest {
     }
 
     @Test
-    void shouldRetrieveNullForMissingBook() throws SQLException {
+    void shouldRetrieveNullForMissingBook() throws Exception {
         assertThat(dao.retrieve(-1)).isNull();
     }
 
     @Test
-    public void shouldFindBooksByAuthorName() throws SQLException {
+    public void shouldFindBooksByAuthorName() throws Exception {
         var book = SampleData.sampleBook();
         var bookWithSameAuthor = SampleData.sampleBook();
 

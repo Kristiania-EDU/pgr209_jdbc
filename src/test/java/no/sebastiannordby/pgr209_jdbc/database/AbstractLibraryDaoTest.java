@@ -21,7 +21,7 @@ public abstract class AbstractLibraryDaoTest {
     }
 
     @Test
-    void shouldRetrieveSavedLibrary() throws SQLException {
+    void shouldRetrieveSavedLibrary() throws Exception {
         var library = SampleData.sampleLibrary();
 
         dao.save(library);

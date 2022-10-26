@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PhysicalBookDao {
-    List<Book> findByLibrary(long libraryId) throws SQLException;
+    List<Book> findByLibrary(long libraryId) throws Exception;
 
-    void insert(Library library, Book book) throws SQLException;
+    void insert(Library library, Book book) throws Exception;
 
-    PhysicalBook readBook(ResultSet rs) throws SQLException;
+    PhysicalBook readBook(ResultSet rs) throws Exception;
 }

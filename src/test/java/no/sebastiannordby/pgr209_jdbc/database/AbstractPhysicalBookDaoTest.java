@@ -34,7 +34,7 @@ public abstract class AbstractPhysicalBookDaoTest {
     }
 
     @Test
-    void shouldListBooksByLibrary() throws SQLException {
+    void shouldListBooksByLibrary() throws Exception {
         var firstBook = SampleData.sampleBook();
         var secondBook = SampleData.sampleBook();
         bookDao.save(firstBook);
