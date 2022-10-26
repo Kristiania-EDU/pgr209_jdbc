@@ -3,13 +3,23 @@ package no.sebastiannordby.pgr209_jdbc.database;
 import no.sebastiannordby.pgr209_jdbc.data.SampleData;
 import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcBookDao;
 import no.sebastiannordby.pgr209_jdbc.models.Book;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BookDaoTest {
-    private final JdbcBookDao dao = new JdbcBookDao(InMemoryDatabase.createTestDataSource());
+public abstract class AbstractBookDaoTest {
+
+    private BookDao dao;
+
+    protected abstract BookDao getDao();
+
+    @BeforeEach
+    void setup() {
+        dao = getDao();
+    }
 
     @Test
     void shouldRetrieveBook() throws SQLException {

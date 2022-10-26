@@ -5,6 +5,10 @@ import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcBookDao;
 import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcLibraryDao;
 import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcPhysicalBookDao;
 import no.sebastiannordby.pgr209_jdbc.models.Book;
+import no.sebastiannordby.pgr209_jdbc.models.PhysicalBook;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -12,11 +16,22 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PhysicalBookDaoTest {
-    private final DataSource testDataSource = InMemoryDatabase.createTestDataSource();
-    private final JdbcBookDao bookDao = new JdbcBookDao(testDataSource);
-    private final JdbcLibraryDao libraryDao = new JdbcLibraryDao(testDataSource);
-    private final JdbcPhysicalBookDao dao = new JdbcPhysicalBookDao(testDataSource, bookDao);
+public abstract class AbstractPhysicalBookDaoTest {
+
+    private PhysicalBookDao dao;
+    private BookDao bookDao;
+    private LibraryDao libraryDao;
+
+    protected abstract PhysicalBookDao getPhysicalBookDao();
+    protected abstract BookDao getBookDao();
+    protected abstract LibraryDao getLibraryDao();
+
+    @BeforeEach
+    void setup() {
+        dao = getPhysicalBookDao();
+        libraryDao = getLibraryDao();
+        bookDao = getBookDao();
+    }
 
     @Test
     void shouldListBooksByLibrary() throws SQLException {
@@ -34,11 +49,11 @@ public class PhysicalBookDaoTest {
         dao.insert(firstLibrary, secondBook);
         dao.insert(secondLibrary, firstBook);
 
-        assertThat(dao.findByLibrary(firstLibrary.getId()))
+        Assertions.assertThat(dao.findByLibrary(firstLibrary.getId()))
             .extracting(Book::getId)
             .contains(firstBook.getId(), secondBook.getId());
 
-        assertThat(dao.findByLibrary(secondLibrary.getId()))
+        Assertions.assertThat(dao.findByLibrary(secondLibrary.getId()))
             .extracting(Book::getId)
             .contains(firstBook.getId())
             .doesNotContain(secondBook.getId());
