@@ -1,5 +1,6 @@
-package no.sebastiannordby.pgr209_jdbc.database;
+package no.sebastiannordby.pgr209_jdbc.database.jdbc;
 
+import no.sebastiannordby.pgr209_jdbc.database.BookDao;
 import no.sebastiannordby.pgr209_jdbc.models.Book;
 
 import java.sql.ResultSet;
@@ -9,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
-public class BookDao {
+public class JdbcBookDao implements BookDao {
     private DataSource dataSource;
 
-    public BookDao(DataSource dataSource) {
+    public JdbcBookDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public void save(Book book) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             var sql = "INSERT INTO books(title, author) values(?, ?)";
@@ -34,6 +36,7 @@ public class BookDao {
         }
     }
 
+    @Override
     public Book retrieve(long id) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             try(var statement = connection.prepareStatement("select * from books where id = ?")) {
@@ -46,6 +49,7 @@ public class BookDao {
         }
     }
 
+    @Override
     public List<Book> findByAuthorName(String authorName) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             var query = "SELECT * FROM BOOKS WHERE author = ?";
@@ -66,7 +70,8 @@ public class BookDao {
         }
     }
 
-    Book readBook(ResultSet resultSet) throws SQLException {
+    @Override
+    public Book readBook(ResultSet resultSet) throws SQLException {
         var book = new Book();
 
         book.setId(resultSet.getLong("id"));

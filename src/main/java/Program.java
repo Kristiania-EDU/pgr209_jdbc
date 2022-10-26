@@ -1,7 +1,7 @@
 import no.sebastiannordby.pgr209_jdbc.data.SampleData;
-import no.sebastiannordby.pgr209_jdbc.database.BookDao;
-import no.sebastiannordby.pgr209_jdbc.database.LibraryDao;
-import no.sebastiannordby.pgr209_jdbc.database.PhysicalBookDao;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcBookDao;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcLibraryDao;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcPhysicalBookDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -9,14 +9,14 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 public class Program {
-    private final BookDao bookDao;
-    private final LibraryDao libraryDao;
-    private final PhysicalBookDao physicalBookDao;
+    private final JdbcBookDao bookDao;
+    private final JdbcLibraryDao libraryDao;
+    private final JdbcPhysicalBookDao physicalBookDao;
 
     public Program(DataSource dataSource) {
-        this.bookDao = new BookDao(dataSource);
-        this.libraryDao = new LibraryDao(dataSource);
-        this.physicalBookDao = new PhysicalBookDao(dataSource, bookDao);
+        this.bookDao = new JdbcBookDao(dataSource);
+        this.libraryDao = new JdbcLibraryDao(dataSource);
+        this.physicalBookDao = new JdbcPhysicalBookDao(dataSource, bookDao);
     }
 
     public void run() throws SQLException {

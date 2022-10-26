@@ -1,5 +1,6 @@
-package no.sebastiannordby.pgr209_jdbc.database;
+package no.sebastiannordby.pgr209_jdbc.database.jdbc;
 
+import no.sebastiannordby.pgr209_jdbc.database.LibraryDao;
 import no.sebastiannordby.pgr209_jdbc.models.Library;
 
 import javax.sql.DataSource;
@@ -7,13 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class LibraryDao {
+public class JdbcLibraryDao implements LibraryDao {
     private final DataSource dataSource;
 
-    public LibraryDao(DataSource dataSource) {
+    public JdbcLibraryDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    @Override
     public void save(Library library) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             var query = "INSERT INTO libraries(name, address) VALUES(?, ?)";
@@ -32,6 +34,7 @@ public class LibraryDao {
         }
     }
 
+    @Override
     public Library retrieve(long id) throws SQLException {
         try(var connection = dataSource.getConnection()) {
             try(var statement =
@@ -45,6 +48,7 @@ public class LibraryDao {
         }
     }
 
+    @Override
     public Library readLibrary(ResultSet resultSet) throws SQLException {
         var library = new Library();
 

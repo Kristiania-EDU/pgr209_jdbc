@@ -1,6 +1,7 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
 import no.sebastiannordby.pgr209_jdbc.data.SampleData;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcLibraryDao;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class LibraryDaoTest {
-    private final LibraryDao dao = new LibraryDao(InMemoryDatabase.createTestDataSource());
+    private final JdbcLibraryDao dao = new JdbcLibraryDao(InMemoryDatabase.createTestDataSource());
 
     @Test
     void shouldRetrieveSavedLibrary() throws SQLException {

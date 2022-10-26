@@ -1,8 +1,10 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
 import no.sebastiannordby.pgr209_jdbc.data.SampleData;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcBookDao;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcLibraryDao;
+import no.sebastiannordby.pgr209_jdbc.database.jdbc.JdbcPhysicalBookDao;
 import no.sebastiannordby.pgr209_jdbc.models.Book;
-import no.sebastiannordby.pgr209_jdbc.models.PhysicalBook;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -12,9 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PhysicalBookDaoTest {
     private final DataSource testDataSource = InMemoryDatabase.createTestDataSource();
-    private final BookDao bookDao = new BookDao(testDataSource);
-    private final LibraryDao libraryDao = new LibraryDao(testDataSource);
-    private final PhysicalBookDao dao = new PhysicalBookDao(testDataSource, bookDao);
+    private final JdbcBookDao bookDao = new JdbcBookDao(testDataSource);
+    private final JdbcLibraryDao libraryDao = new JdbcLibraryDao(testDataSource);
+    private final JdbcPhysicalBookDao dao = new JdbcPhysicalBookDao(testDataSource, bookDao);
 
     @Test
     void shouldListBooksByLibrary() throws SQLException {
