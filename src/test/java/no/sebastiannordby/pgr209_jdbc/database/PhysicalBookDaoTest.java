@@ -14,7 +14,7 @@ public class PhysicalBookDaoTest {
     private final DataSource testDataSource = InMemoryDatabase.createTestDataSource();
     private final BookDao bookDao = new BookDao(testDataSource);
     private final LibraryDao libraryDao = new LibraryDao(testDataSource);
-    private final PhysicalBookDao dao = new PhysicalBookDao(testDataSource, libraryDao, bookDao);
+    private final PhysicalBookDao dao = new PhysicalBookDao(testDataSource, bookDao);
 
     @Test
     void shouldListBooksByLibrary() throws SQLException {

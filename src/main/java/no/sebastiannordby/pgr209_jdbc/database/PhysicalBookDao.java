@@ -13,23 +13,19 @@ import java.util.List;
 
 public class PhysicalBookDao {
     private final DataSource dataSource;
-    private final LibraryDao libraryDao;
     private final BookDao bookDao;
 
-    public PhysicalBookDao(DataSource dataSource, LibraryDao libraryDao, BookDao bookDao) {
+    public PhysicalBookDao(DataSource dataSource, BookDao bookDao) {
         this.dataSource = dataSource;
-        this.libraryDao = libraryDao;
         this.bookDao = bookDao;
     }
 
     public List<Book> findByLibrary(long libraryId) throws SQLException {
         try(var connection = dataSource.getConnection()) {
-
             var sql = """
                 SELECT b.* FROM physical_books AS pb 
                 INNER JOIN books AS b on pb.book_id = b.id
-                where library_id = ?
-            """;
+                where library_id = ?""";
 
             try(var statement =
                 connection.prepareStatement(sql)) {
