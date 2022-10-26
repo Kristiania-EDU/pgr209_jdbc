@@ -24,25 +24,23 @@ public class PhysicalBookDao {
 
     public List<Book> findByLibrary(long libraryId) throws SQLException {
         try(var connection = dataSource.getConnection()) {
+
+            var sql = """
+                SELECT b.* FROM physical_books AS pb 
+                INNER JOIN books AS b on pb.book_id = b.id
+                where library_id = ?
+            """;
+
             try(var statement =
-                connection.prepareStatement("SELECT book_id FROM physical_books where library_id = ?")) {
+                connection.prepareStatement(sql)) {
                 statement.setLong(1, libraryId);
 
                 try(var rs = statement.executeQuery()) {
-                    var bookIds = new ArrayList<Long>();
                     var books = new ArrayList<Book>();
 
                     while(rs.next()) {
-                        bookIds.add(rs.getLong("book_id"));
+                        books.add(bookDao.readBook(rs));
                     }
-
-                    bookIds.forEach(x -> {
-                        try {
-                            books.add(bookDao.retrieve(x));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    });
 
                     return books;
                 }
