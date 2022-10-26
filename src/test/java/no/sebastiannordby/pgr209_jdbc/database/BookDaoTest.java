@@ -1,6 +1,7 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
 import no.sebastiannordby.pgr209_jdbc.data.SampleData;
+import no.sebastiannordby.pgr209_jdbc.models.Book;
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 

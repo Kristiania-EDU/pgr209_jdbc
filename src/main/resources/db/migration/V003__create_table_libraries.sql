@@ -1,0 +1,5 @@
+CREATE TABLE libraries(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(125) NOT NULL,
+    address VARCHAR(150) NOT NULL
+)

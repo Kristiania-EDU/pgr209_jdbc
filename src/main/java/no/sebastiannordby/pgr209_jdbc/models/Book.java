@@ -1,4 +1,4 @@
-package no.sebastiannordby.pgr209_jdbc.database;
+package no.sebastiannordby.pgr209_jdbc.models;
 
 public class Book {
     private long id;

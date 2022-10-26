@@ -9,15 +9,16 @@ import java.sql.SQLException;
 
 public class Program {
     private BookDao bookDao;
+    private LibraryDao libraryDao;
 
     public Program(DataSource dataSource) {
         this.bookDao = new BookDao(dataSource);
+        this.libraryDao = new LibraryDao(dataSource);
     }
 
     public void run() throws SQLException {
-        var book = SampleData.sampleBook();
-
-        bookDao.save(book);
+        bookDao.save(SampleData.sampleBook());
+        libraryDao.save(SampleData.sampleLibrary());
     }
 
     public static void main(String[] args) throws SQLException {

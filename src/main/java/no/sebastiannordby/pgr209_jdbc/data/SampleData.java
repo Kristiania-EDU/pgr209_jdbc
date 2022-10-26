@@ -1,6 +1,7 @@
 package no.sebastiannordby.pgr209_jdbc.data;
 
-import no.sebastiannordby.pgr209_jdbc.database.Book;
+import no.sebastiannordby.pgr209_jdbc.models.Book;
+import no.sebastiannordby.pgr209_jdbc.models.Library;
 
 import java.util.Random;
 
@@ -33,5 +34,21 @@ public class SampleData {
     private static String pickOne(String... alternatives) {
         random = new Random();
         return alternatives[random.nextInt(alternatives.length - 1)];
+    }
+
+    public static Library sampleLibrary() {
+        var library = new Library();
+
+        library.setName(
+            pickOne("Oslo", "Lillestrøm", "Bergen", "Sogndal", "Røros")
+            + " " +
+            pickOne("Public Library", "Deichmanske", "City LIbrary", "Freefree")
+        );
+
+        library.setAddress(
+            sampleFullName() + " gate " + random.nextInt(100)
+        );
+
+        return library;
     }
 }

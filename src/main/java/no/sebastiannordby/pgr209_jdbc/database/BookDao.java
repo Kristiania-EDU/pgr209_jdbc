@@ -1,5 +1,7 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
+import no.sebastiannordby.pgr209_jdbc.models.Book;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
