@@ -1,7 +1,10 @@
 package no.sebastiannordby.pgr209_jdbc.database;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.sql.DataSource;
 
 public class BookDao {
@@ -13,11 +16,13 @@ public class BookDao {
 
     public void save(Book book) throws SQLException {
         try(var connection = dataSource.getConnection()) {
-            var sql = "INSERT INTO books(title) values(?)";
+            var sql = "INSERT INTO books(title, author) values(?, ?)";
 
             try(var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, book.getTitle());
+                statement.setString(2, book.getAuthor());
                 statement.executeUpdate();
+
 
                 try(var generatedKeys = statement.getGeneratedKeys()) {
                     generatedKeys.next();
@@ -33,18 +38,39 @@ public class BookDao {
                 statement.setLong(1, id);
 
                 try(var resultSet = statement.executeQuery()) {
-                    if(resultSet.next()) {
-                        var book = new Book();
-
-                        book.setId(resultSet.getLong("id"));
-                        book.setTitle(resultSet.getString("title"));
-
-                        return book;
-                    }
-
-                    return null;
+                    return resultSet.next() ? readBook(resultSet) : null;
                 }
             }
         }
+    }
+
+    public List<Book> findByAuthorName(String authorName) throws SQLException {
+        try(var connection = dataSource.getConnection()) {
+            var query = "SELECT * FROM BOOKS WHERE author = ?";
+
+            try(var statement = connection.prepareStatement(query)) {
+                statement.setString(1, authorName);
+
+                try(var resultSet = statement.executeQuery()) {
+                    var result = new ArrayList<Book>();
+
+                    while(resultSet.next()) {
+                        result.add(readBook(resultSet));
+                    }
+
+                    return result;
+                }
+            }
+        }
+    }
+
+    private Book readBook(ResultSet resultSet) throws SQLException {
+        var book = new Book();
+
+        book.setId(resultSet.getLong("id"));
+        book.setTitle(resultSet.getString("title"));
+        book.setAuthor(resultSet.getString("author"));
+
+        return book;
     }
 }

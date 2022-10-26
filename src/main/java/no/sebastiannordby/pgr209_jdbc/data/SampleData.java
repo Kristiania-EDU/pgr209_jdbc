@@ -18,6 +18,10 @@ public class SampleData {
             ) + " " + sampleFullName()
         );
 
+        book.setAuthor(
+            sampleFullName()
+        );
+
         return book;
     }
 
